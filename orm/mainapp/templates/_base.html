@@ -38,6 +38,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{% url "about" %}" {% if request.resolver_match.url_name == "about" %}class="active"{% endif %}>
+                            About
+                        </a>
+                    </li>
+                    <li>
                         <a href="{% url "newsletter" %}" {% if request.resolver_match.url_name == "newsletter" %}class="active"{% endif %}>
                             Newsletter
                         </a>

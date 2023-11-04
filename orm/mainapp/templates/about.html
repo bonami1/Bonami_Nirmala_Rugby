@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'about.css' %}">
+{% block title %}About{% endblock %}
+
+{% block content %}
+<main>
+    <div>
+        <h3>Le rugby</h3>
+        <img id="rugbyImg" src="{% static 'pexels-pixabay-163398.jpg' %}" alt="image rugby">
+        <p></p>
+
+        <h3>Le Japon</h3>
+        <img id="drapeauImg" src="{% static 'drapeau-japon-5075-cm.jpg' %}" alt="drapeau japon">
+    </div>
+</main>
+{% endblock %}
