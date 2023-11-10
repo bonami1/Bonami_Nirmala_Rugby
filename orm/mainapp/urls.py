@@ -18,5 +18,5 @@ urlpatterns = (
     path("api/eventsDetails/<int:pk>/", api.eventsListDetails, name="apiEventsDetails"),
     path("api/teams", api.teamsList, name="apiTeams"),
     path("api/teamsDetails/<int:pk>/", api.teamsListDetails, name="apiTeamsDetails"),
-    path("api/ticket/<uuid:ticket_id>/",api.ticketInfos, name="apiTiketsDetails"), # A FAIRE
+    path("api/ticket/<str:pk>/",api.ticketInfos, name="apiTiketsDetails"),
 )

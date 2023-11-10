@@ -2,6 +2,9 @@ from django.views.generic import TemplateView
 from mainapp.models import Event, Stadium, Team, Ticket
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.core.serializers import serialize
+from django.core import serializers
+import json
 
 def eventsList(requets):
     event = Event.objects.all()
@@ -77,17 +80,27 @@ def stadiumsListDetails(request, pk):
     }}
     return JsonResponse(data) # return render()
 
-def ticketInfos(request, ticket_id):
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    #ticket = Ticket.objects.get_by_uuid(ticket_id)
-    event_data = eventsListDetails(request, pk=ticket.pk)
-    
+def ticketInfos(request, pk):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    #event_data = eventsListDetails(request, pk=ticket.pk)
+    serialize_stadium = serializers.serialize("json", Stadium.objects.all(), 
+                                              fields = ["name", "location", "latitude", "longitude"])
+    serialize_stadium = json.loads(serialize_stadium)
+
+    serialize_team_home = serializers.serialize("json", Team.objects.all(),
+                                                fields = ["country", "country_alpha2", "nickname", "color_first", "color-second"])
+    serialize_team_home = json.loads(serialize_team_home)
+
+    serialize_team_away = serializers.serialize("json", Team.objects.all(),
+                                                fields = ["country", "country_alpha2", "nickname", "color_first", "color-second"])
+    serialize_team_away = json.loads(serialize_team_away)
+
     ticket_data = {"results" : {
         "id": ticket.id,
         "event": {
-            "stadium": event_data["result"]["stadium"],
-            "team_home": event_data["result"]["team_home"],
-            "team_away": event_data["result"]["team_away"]
+            "stadium": serialize_stadium[0]["fields"], #event_data["result"]["stadium"],
+            "team_home": serialize_team_home[0]["fields"], #event_data["result"]["team_home"],
+            "team_away":  serialize_team_away[0]["fields"] #event_data["result"]["team_away"]
         },
         "category": ticket.category,
         "seat": ticket.seat,
