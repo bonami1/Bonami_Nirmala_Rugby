@@ -8,7 +8,7 @@ import json
 
 def eventsList(requets):
     event = Event.objects.all()
-    data = {"RESULT" : list(event.values("stadium", "team_home", "team_away", "start"))}
+    data = {"RESULT" : list(event.values("id", "stadium", "team_home", "team_away", "start"))}
     return JsonResponse(data)
 
 def eventsListDetails(request, pk):
@@ -42,6 +42,7 @@ def eventsListDetails(request, pk):
     }
 
     data = {"results" : {
+        "id": events.pk,
         "stadium" : stadium_data,
         "team_home" : team_home_data,
         "team_away" : team_away_data,
@@ -49,14 +50,18 @@ def eventsListDetails(request, pk):
     }}
     return JsonResponse(data)
 
+def eventListAll(request):
+    eventList = Event.objects.all()
+
 def teamsList(requets):
     team = Team.objects.all()
-    data = {"RESULT" : list(team.values("country", "country_alpha2", "nickname", "color_first", "color_second"))}
+    data = {"RESULT" : list(team.values("id", "country", "country_alpha2", "nickname", "color_first", "color_second"))}
     return JsonResponse(data)
 
 def teamsListDetails(request, pk):
     teams = get_object_or_404(Team, pk=pk)
     data = {"result": {
+        "id": teams.pk,
         "country": teams.country,
         "country_alpha2": teams.country_alpha2,
         "nickname": teams.nickname,
@@ -67,12 +72,13 @@ def teamsListDetails(request, pk):
 
 def stadiumsList(requets):
     stadium = Stadium.objects.all()
-    data = {"RESULT": list(stadium.values("name", "location", "latitude", "longitude"))}
+    data = {"RESULT": list(stadium.values("id", "name", "location", "latitude", "longitude"))}
     return JsonResponse(data)
 
 def stadiumsListDetails(request, pk):
     stadiums = get_object_or_404(Stadium, pk=pk)
     data = {"result": {
+        "id": stadiums.pk,
         "name": stadiums.name,
         "location": stadiums.location,
         "latitude": stadiums.latitude,
